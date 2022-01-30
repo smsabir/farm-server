@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 });
 
 // Application routes
-app.use('/farms', farmDataHandler);
+app.use('/v1/farms', farmDataHandler);
 app.use('/v1/farms/', sensorDataHandler);
 
 // Default error handler

@@ -8,8 +8,8 @@ const fs = require('fs');
 const sensorDataSchema = require('../schemas/sensorDataSchema');
 
 const SensorData = new mongoose.model('SensorData', sensorDataSchema);
-
-router.get('/:id/status', (req, res) => {
+//  GET sensor data by id
+router.get('/:id/stats', (req, res) => {
     const { id } = req.params;
     SensorData.find({ id })
         .select({
@@ -29,6 +29,7 @@ router.get('/:id/status', (req, res) => {
         });
 });
 
+// POST sensor data from CSV
 router.post('/convert_csv', (req, res) => {
     const results = [];
     const finalResults = [];
@@ -121,5 +122,7 @@ router.post('/convert_csv', (req, res) => {
         }
     }
 });
+
+// router.get('/:id/stats/:sensor/monthly', (req, res) => {
 
 module.exports = router;
