@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 const mongoose = require('mongoose');
-const fs = require('fs');
 const csv = require('csv-parse');
+const fs = require('fs');
 
 const sensorDataSchema = require('../schemas/sensorDataSchema');
 
@@ -37,8 +37,8 @@ router.post('/convert_csv', (req, res) => {
     console.log(id, name, uploadedCSV);
 
     if (
-        uploadedCSV.mimetype !== 'application/vnd.ms-excel' &&
-        uploadedCSV.mimetype !== 'text/csv'
+        uploadedCSV.mimetype !== 'application/vnd.ms-excel'
+        && uploadedCSV.mimetype !== 'text/csv'
     ) {
         return res.status(406).send({ status: 0, message: 'Please upload csv file only' });
     }

@@ -1,34 +1,26 @@
 const mongoose = require('mongoose');
 
-const farmDataSchema = mongoose.Schema({
-    creator: {
+const sensorDataSchema = mongoose.Schema({
+    location: {
         type: String,
         required: true,
     },
-    name: {
-        type: String,
-        required: true,
-    },
-    city: {
-        type: String,
-        required: true,
-    },
-    zip: {
-        type: String,
-        required: true,
-    },
-    country: {
-        type: String,
-        required: true,
-    },
-    established: {
+    datetime: {
         type: Date,
         required: true,
     },
-    id: {
+    sensorType: {
+        type: String,
+        required: true,
+    },
+    value: {
         type: Number,
+        required: true,
+    },
+    id: {
+        type: String,
         required: true,
     },
 });
 
-module.exports = farmDataSchema;
+module.exports = sensorDataSchema;

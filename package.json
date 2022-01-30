@@ -4,14 +4,15 @@
   "description": "Assignment task from solita",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start:dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "S M Abdullah Al Sabir",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "csv-parse": "^5.0.4",
+    "csv-parser": "^3.0.0",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
