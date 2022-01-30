@@ -10,8 +10,11 @@
   "author": "S M Abdullah Al Sabir",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "csv-parse": "^5.0.4",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
+    "express-fileupload": "^1.2.1",
     "mongoose": "^6.1.8"
   }
 }
