@@ -4,7 +4,8 @@
   "description": "Assignment task from solita",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "S M Abdullah Al Sabir",
   "license": "ISC",
