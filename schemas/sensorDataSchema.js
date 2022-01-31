@@ -6,10 +6,10 @@ const sensorDataSchema = mongoose.Schema({
         required: true,
     },
     datetime: {
-        type: Date,
+        type: String,
         required: true,
     },
-    sensorType: {
+    sensor_type: {
         type: String,
         required: true,
     },
@@ -17,7 +17,7 @@ const sensorDataSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    id: {
+    farm_id: {
         type: String,
         required: true,
     },
