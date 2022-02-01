@@ -30,7 +30,6 @@ router.get('/', (req, res) => {
 // POST for fetching user specified farm data
 router.post('/', (req, res) => {
     const { email } = req.body;
-    console.log(email);
     const getUsersFarms = (id) => {
         const gID = { gID: id };
         Farm.find({ creator: email })
@@ -78,7 +77,7 @@ router.post('/add', (req, res) => {
 router.put('/update', (req, res) => {
     const data = req.body;
     const { _id } = data;
-    const result = Farm.findByIdAndUpdate(
+    Farm.findByIdAndUpdate(
         _id,
         data,
 
@@ -100,7 +99,22 @@ router.put('/update', (req, res) => {
             }
         },
     );
-    // console.log(data, _id);
+});
+
+// Delete Existing Farm
+router.delete('/delete', async (req, res) => {
+    const id = req.body_id;
+    Farm.deleteOne({ _id: id }, (err) => {
+        if (err) {
+            res.status(500).json({
+                error: 'There was a server side error!',
+            });
+        } else {
+            res.status(200).json({
+                message: 'Farm deleted successfully!',
+            });
+        }
+    });
 });
 
 module.exports = router;

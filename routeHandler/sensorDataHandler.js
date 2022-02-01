@@ -64,7 +64,7 @@ router.get('/:id/stats/:sensorType/monthly', async (req, res) => {
     ]);
 
     const stats = await monthlyStats(aggData);
-    console.log({ farm_id: id, sensor_type: sensorType, stats });
+    
 
     res.status(200).send({ farm_id: id, sensor_type: sensorType, stats });
 });
@@ -75,11 +75,11 @@ router.post('/convert_csv', (req, res) => {
     const finalResults = [];
     const uploadedCSV = req.files.file;
     const { id, name } = req.body;
-    console.log(id, name, uploadedCSV);
+   
 
     if (
-        uploadedCSV.mimetype !== 'application/vnd.ms-excel'
-        && uploadedCSV.mimetype !== 'text/csv'
+        uploadedCSV.mimetype !== 'application/vnd.ms-excel' &&
+        uploadedCSV.mimetype !== 'text/csv'
     ) {
         return res.status(406).send({ status: 0, message: 'Please upload csv file only' });
     }
@@ -101,37 +101,23 @@ router.post('/convert_csv', (req, res) => {
                     let sensor = '';
                     let lowerLimit = 0;
                     let upperLimit = 0;
-                    if (singleData.location.toLowerCase() === name.toLowerCase()) {
+                    if (singleData.location?.toLowerCase() === name.toLowerCase()) {
                         let passedData = {};
-                        switch (singleData.sensorType.toLowerCase()) {
+                        switch (singleData.sensorType?.toLowerCase()) {
                             case 'temperature':
                                 sensor = 'temperature';
                                 lowerLimit = -50;
                                 upperLimit = 50;
 
-                                passedData = validateAndAddData(
-                                    sensor,
-                                    lowerLimit,
-                                    upperLimit,
-                                    singleData,
-                                    id,
-                                );
-                                finalResults.push(passedData);
-                                break;
+                                validateAndAddData(sensor, lowerLimit, upperLimit, singleData, id);
+                              break;
 
                             case 'ph':
                                 sensor = 'ph';
                                 lowerLimit = 0;
                                 upperLimit = 14;
 
-                                passedData = validateAndAddData(
-                                    sensor,
-                                    lowerLimit,
-                                    upperLimit,
-                                    singleData,
-                                    id,
-                                );
-                                finalResults.push(passedData);
+                                validateAndAddData(sensor, lowerLimit, upperLimit, singleData, id);
                                 break;
 
                             case 'rainfall':
@@ -139,14 +125,7 @@ router.post('/convert_csv', (req, res) => {
                                 lowerLimit = 0;
                                 upperLimit = 500;
 
-                                passedData = validateAndAddData(
-                                    sensor,
-                                    lowerLimit,
-                                    upperLimit,
-                                    singleData,
-                                    id,
-                                );
-                                finalResults.push(passedData);
+                                validateAndAddData(sensor, lowerLimit, upperLimit, singleData, id);
                                 break;
 
                             default:
@@ -157,6 +136,33 @@ router.post('/convert_csv', (req, res) => {
                             ? `${singleData.datetime} has wrong location name`
                             : 'Selected Farm and File Location does not match!';
                         console.log(message);
+                    }
+                }
+
+                // function for data validation
+                async function validateAndAddData(
+                    sensor,
+                    lowerLimit,
+                    UpperLimit,
+                    singleData,
+                    farmId,
+                ) {
+                    const { value, location, sensorType, datetime: datelines } = singleData;
+                    const date = datelines.toString();
+                    const blank = '';
+                    const sensorToLower = sensorType.toLowerCase();
+                    if (value >= lowerLimit && value <= UpperLimit && value !== blank) {
+                        const thisData = {
+                            location,
+                            datetime: date,
+                            sensor_type: sensorToLower,
+                            value,
+                            farm_id: farmId,
+                        };
+
+                        finalResults.push(thisData);
+                    } else {
+                        console.log(`${sensor} data does not match!`);
                     }
                 }
                 // res.status(200).send(finalResults);
@@ -175,33 +181,12 @@ router.post('/convert_csv', (req, res) => {
     });
 });
 
-// function for data validation
-async function validateAndAddData(sensor, lowerLimit, UpperLimit, singleData, farmId) {
-    const { value, location, sensorType, datetime } = singleData;
-    const date = new Date(datetime);
-    const blank = '';
-    const sensorToLower = sensorType.toLowerCase();
-
-    if (value >= lowerLimit && value <= UpperLimit && value !== blank) {
-        const thisData = {
-            location,
-            datetime: date,
-            sensor_type: sensorToLower,
-            value,
-            farm_id: farmId,
-        };
-
-        return thisData;
-    }
-    console.log(`${sensor} data does not match!`);
-}
-
 // Function to calculate median and organize the stats
 async function monthlyStats(aggData) {
     const totalMonths = aggData.length;
     const stats = [];
 
-    for (let i = 0; i < totalMonths;) {
+    for (let i = 0; i < totalMonths; ) {
         let thisData = {};
         const { average, standardDeviation } = aggData[i];
         const { year, month } = aggData[i]._id;

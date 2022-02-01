@@ -36,8 +36,8 @@ mongoose
 // Server status check
 app.get('/', (req, res) => {
     res.status(200).send({
-        status: 1,
-        message: `🚀 Server Running on port http://localhost:${PORT}`,
+        status: "OK",
+        message: `🚀 Server Running!`,
     });
 });
 
