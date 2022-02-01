@@ -35,9 +35,7 @@ router.post('/', (req, res) => {
         const gID = { gID: id };
         Farm.find({ creator: email })
             .select({
-                _id: 0,
                 __v: 0,
-                zip: 0,
             })
             .exec((err, data) => {
                 if (err) {
@@ -49,6 +47,8 @@ router.post('/', (req, res) => {
                 }
             });
     };
+
+    // generating ID for new farm registration
     Farm.find({})
         .then((data) => {
             const IDs = data.map((farm) => farm.id);
@@ -74,4 +74,33 @@ router.post('/add', (req, res) => {
         }
     });
 });
+// POST Router For Update
+router.put('/update', (req, res) => {
+    const data = req.body;
+    const { _id } = data;
+    const result = Farm.findByIdAndUpdate(
+        _id,
+        data,
+
+        {
+            new: true,
+            upsert: true,
+            rawResult: true,
+        },
+
+        (err) => {
+            if (err) {
+                res.status(500).json({
+                    error: 'There was a server side error!',
+                });
+            } else {
+                res.status(200).json({
+                    message: 'Farm Data was updated successfully!',
+                });
+            }
+        },
+    );
+    // console.log(data, _id);
+});
+
 module.exports = router;
