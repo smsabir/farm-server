@@ -1,17 +1,20 @@
 # farm-server
-# Project Title
-
-A nice project with a nice description
-
+The project is to make a backend application where client can upload and register their farms, then call api for different stats.
+The main task was to parsing CSV uploaded from client side then validate it and store data in Database. Then different API endpoints with some sorting / calculation parameters.
 ---
+
+
 ## Requirements
 
-For development, you will only need Node.js and a node global package, Yarn, installed in your environement.
+To Run this app in development environment, you will only need Node.js and a node global package, NPM / Yarn, installed in your environement.
+you can open your terminal and type node -v. If the version appears then congratulation! you are already ahead. 
+If you haven't please follow below instruction.
 
 ### Node
 - #### Node installation on Windows
 
-  Just go on [official Node.js website](https://nodejs.org/) and download the installer.
+
+Visit (https://nodejs.org/) and download the installer.
 Also, be sure to have `git` available in your PATH, `npm` might need it (You can find git [here](https://git-scm.com/)).
 
 - #### Node installation on Ubuntu
