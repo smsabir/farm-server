@@ -6,7 +6,7 @@ const sensorDataSchema = mongoose.Schema({
         required: true,
     },
     datetime: {
-        type: String,
+        type: Date,
         required: true,
     },
     sensor_type: {
